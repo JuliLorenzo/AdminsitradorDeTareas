@@ -15,9 +15,9 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-      # Comentado temporalmente hasta que los compañeros suban los tests
-      # - name: Run tests
-      #   run: npx ng test --watch=false --browsers=ChromeHeadless
+      #Tests ya subidos
+      - name: Run tests
+        run: npx ng test --watch=false --browsers=ChromeHeadless
       - name: Build project
         run: npx ng build --configuration production
       - uses: FirebaseExtended/action-hosting-deploy@v0
