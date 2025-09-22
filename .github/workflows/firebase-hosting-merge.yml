@@ -5,23 +5,45 @@ on:
       - main
 
 jobs:
-  deploy:
+  test-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # 1. Checkout del código
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # 2. Configurar Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+      
+      # 3. Instalar dependencias
       - name: Install dependencies
         run: npm ci
       
-      # Build del proyecto
+      # 4. Ejecutar linter (buenas prácticas) - BLOQUEA si falla
+      - name: Run linter
+        run: npm run lint
+      
+      # 5. Ejecutar pruebas unitarias
+      - name: Run unit tests
+        run: npm run test:ci
+      
+      # 6. Corregir formato de código automáticamente
+      - name: Fix code formatting
+        run: npx prettier --write "src/**/*.{ts,html,css,scss,json}"
+      
+      # 7. Verificar que el formato es correcto
+      - name: Check code formatting
+        run: npm run format:check
+      
+      # 8. Build del proyecto
       - name: Build project
         run: npm run build:prod
 
-      # Verificar que el build se generó correctamente
+      # 9. Verificar que el build se generó correctamente
       - name: Verify build output
         run: |
           echo "Verificando archivos generados:"
@@ -33,7 +55,7 @@ jobs:
           cat dist/essentials/browser/index.html | head -10
           echo "Verificación completa"
       
-      # Deploy a Firebase
+      # 10. Deploy a Firebase
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
