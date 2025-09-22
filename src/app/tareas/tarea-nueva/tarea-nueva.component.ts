@@ -13,7 +13,7 @@ import { TareasService } from '../tareas.service';
 
 export class TareaNuevaComponent {
   @Input({required: true}) idUsuario!: string;
-  @Output() cerrar = new EventEmitter<void>();  
+  @Output() cerrar = new EventEmitter<void>();
   tituloIngresado = '';
   resumenIngresado = '';
   fechaExpiracionIngresada = '';
@@ -24,13 +24,18 @@ export class TareaNuevaComponent {
     this.cerrar.emit();
   }
 
+  // Agregar validación para título vacío
   alEnviar() {
-    this.tareaService.agregarTarea({
-      titulo: this.tituloIngresado,
-      resumen: this.resumenIngresado,
-      fecha: this.fechaExpiracionIngresada
-    }, this.idUsuario);
-      this.cerrar.emit();
+  if (!this.tituloIngresado.trim()) {
+    alert('El título es obligatorio');
+    return;
+  }
 
+  this.tareaService.agregarTarea({
+    titulo: this.tituloIngresado,
+    resumen: this.resumenIngresado,
+    fecha: this.fechaExpiracionIngresada
+  }, this.idUsuario);
+  this.cerrar.emit();
   };
 }
