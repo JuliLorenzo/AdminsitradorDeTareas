@@ -1,4 +1,4 @@
-<div class="fondo" (click)="alCancelar()"></div>
+<div class="fondo" (click)="alCancelar()" (keyup.enter)="alCancelar()" (keyup.escape)="alCancelar()" tabindex="0" role="button" aria-label="Cerrar modal"></div>
 <dialog open>
   <h2>Agregar Tarea</h2>
   <form (ngSubmit)="alEnviar()">

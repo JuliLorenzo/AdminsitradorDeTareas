@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { type TareaNuevaInfo } from '../tarea/tarea.model';
+// import { type TareaNuevaInfo } from '../tarea/tarea.model'; // Comentado - no se usa actualmente
 import { TareasService } from '../tareas.service';
 
 @Component({
