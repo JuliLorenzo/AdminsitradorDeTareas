@@ -95,30 +95,30 @@ describe('Estilos Globales', () => {
 
 // prueba de regresion que falle intencionalmente :cambie el color de texto a un valor diferente
 //y como se espera que sea del color original falla
-describe('Prueba de regresión de color del texto', () => {
-  let colorOriginal: string;
+// describe('Prueba de regresión de color del texto', () => {
+//   let colorOriginal: string;
 
-  beforeEach(() => {
-    // Guardamos el color original
-    colorOriginal = window.getComputedStyle(document.body).color;
-  });
+//   beforeEach(() => {
+//     // Guardamos el color original
+//     colorOriginal = window.getComputedStyle(document.body).color;
+//   });
 
-  it('debe fallar al detectar cambio no autorizado en el color del texto', () => {
-    // Simulamos un cambio no deseado en el color
-    document.body.style.color = 'rgb(100, 100, 100)';
+//   it('debe fallar al detectar cambio no autorizado en el color del texto', () => {
+//     // Simulamos un cambio no deseado en el color
+//     document.body.style.color = 'rgb(100, 100, 100)';
 
-    const colorActual = window.getComputedStyle(document.body).color;
+//     const colorActual = window.getComputedStyle(document.body).color;
 
-    // Esta prueba fallará porque esperamos el color original
-    expect(colorActual).toBe('rgb(195, 179, 216)');
+//     // Esta prueba fallará porque esperamos el color original
+//     expect(colorActual).toBe('rgb(195, 179, 216)');
 
-    // También verificamos que no sea el nuevo color (redundante, pero ilustrativo)
-    expect(colorActual).not.toBe('rgb(100, 100, 100)');
-  });
+//     // También verificamos que no sea el nuevo color (redundante, pero ilustrativo)
+//     expect(colorActual).not.toBe('rgb(100, 100, 100)');
+//   });
 
-  afterEach(() => {
-    // Restauramos el color original
-    document.body.style.color = colorOriginal;
-  });
-});
+//   afterEach(() => {
+//     // Restauramos el color original
+//     document.body.style.color = colorOriginal;
+//   });
+// });
 
