@@ -1,49 +1,27 @@
-name: CI/CD Pipeline - Administrador de Tareas
+name: Deploy to Firebase Hosting on merge
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  test-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout del código
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      # 2. Configurar Node.js
+      - uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-      
-      # 3. Instalar dependencias
       - name: Install dependencies
         run: npm ci
       
-      # 4. Ejecutar linter (buenas prácticas)
-      - name: Run linter
-        run: npm run lint
-        continue-on-error: true
-      
-      # 5. Ejecutar pruebas unitarias
-      - name: Run unit tests
-        run: npm run test:ci
-      
-      # 6. Verificar formato de código
-      - name: Check code formatting
-        run: npm run format:check
-        continue-on-error: true
-      
-      # 7. Build del proyecto
+      # Build del proyecto
       - name: Build project
         run: npm run build:prod
 
+      # Verificar que el build se generó correctamente
       - name: Verify build output
         run: |
           echo "Verificando archivos generados:"
@@ -51,16 +29,12 @@ jobs:
           ls -la dist/essentials/
           echo "Contenido de dist/essentials/:"
           ls -la dist/essentials/
-          ls -la dist/essentials/browser/
-          echo "Contenido de dist/essentials/browser/:"
-          ls -la dist/essentials/browser/
           echo "Verificando index.html:"
           cat dist/essentials/browser/index.html | head -10
           echo "Verificación completa"
       
-      # 8. Deploy a Firebase (solo en push a main)
+      # Deploy a Firebase
       - name: Deploy to Firebase Hosting
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

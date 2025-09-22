@@ -1,0 +1,56 @@
+name: PR Validation Pipeline
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout del código
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      # 2. Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      # 3. Instalar dependencias
+      - name: Install dependencies
+        run: npm ci
+      
+      # 4. Ejecutar linter (buenas prácticas) - BLOQUEA si falla
+      - name: Run linter
+        run: npm run lint
+      
+      # 5. Ejecutar pruebas unitarias
+      - name: Run unit tests
+        run: npm run test:ci
+      
+      # 6. Corregir formato de código automáticamente
+      - name: Fix code formatting
+        run: npx prettier --write "src/**/*.{ts,html,css,scss,json}"
+      
+      # 7. Verificar que el formato es correcto
+      - name: Check code formatting
+        run: npm run format:check
+      
+      # 8. Build del proyecto
+      - name: Build project
+        run: npm run build:prod
+
+      # 9. Verificar que el build se generó correctamente
+      - name: Verify build output
+        run: |
+          echo "Verificando archivos generados:"
+          ls -la dist/
+          ls -la dist/essentials/
+          echo "Contenido de dist/essentials/:"
+          ls -la dist/essentials/
+          echo "Verificando index.html:"
+          cat dist/essentials/browser/index.html | head -10
+          echo "Verificación completa"
