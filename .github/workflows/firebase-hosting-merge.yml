@@ -51,8 +51,11 @@ jobs:
           ls -la dist/essentials/
           echo "Contenido de dist/essentials/:"
           ls -la dist/essentials/
+          ls -la dist/essentials/browser/
+          echo "Contenido de dist/essentials/browser/:"
+          ls -la dist/essentials/browser/
           echo "Verificando index.html:"
-          cat dist/essentials/index.html | head -10
+          cat dist/essentials/browser/index.html | head -10
           echo "Verificación completa"
       
       # 8. Deploy a Firebase (solo en push a main)
