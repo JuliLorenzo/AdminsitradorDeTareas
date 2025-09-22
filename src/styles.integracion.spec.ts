@@ -18,6 +18,7 @@ describe('Prueba de Integración de Estilos', () => {
     boxSizing: string;
   };
 
+  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TestComponent]
