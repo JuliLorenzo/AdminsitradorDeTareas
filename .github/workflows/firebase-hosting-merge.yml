@@ -43,6 +43,17 @@ jobs:
       # 7. Build del proyecto
       - name: Build project
         run: npm run build:prod
+
+      - name: Verify build output
+        run: |
+          echo "Verificando archivos generados:"
+          ls -la dist/
+          ls -la dist/essentials/
+          echo "Contenido de dist/essentials/:"
+          ls -la dist/essentials/
+          echo "Verificando index.html:"
+          cat dist/essentials/index.html | head -10
+          echo "Verificación completa"
       
       # 8. Deploy a Firebase (solo en push a main)
       - name: Deploy to Firebase Hosting
