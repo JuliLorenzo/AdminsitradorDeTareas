@@ -2,33 +2,28 @@ name: Angular CI
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [develop, main]  # Agregar main
   push:
-    branches: [develop]
+    branches: [develop, main]  # Agregar main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Descargar código
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Actualizar versión
 
-      # 2. Configurar Node.js (usa la versión recomendada para Angular 18: Node 18+)
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4  # Actualizar versión
         with:
-          node-version: '18'
+          node-version: '20'  # Cambiar a 20
 
-      # 3. Instalar dependencias
       - name: Install dependencies
-        run: npm install
+        run: npm ci  # Usar npm ci
 
-      # 4. Ejecutar pruebas unitarias con Karma/Jasmine
       - name: Run unit tests
-        run: npm test -- --watch=false --browsers=ChromeHeadless
+        run: npx ng test --watch=false --browsers=ChromeHeadless  # Usar npx
 
-      # 5. Generar el build de Angular
       - name: Build project
-        run: npm run build -- --configuration=production
+        run: npx ng build --configuration=production  # Usar npx
